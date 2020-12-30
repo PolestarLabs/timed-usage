@@ -103,6 +103,14 @@ export class DailyCmd {
     return now - (userDaily.last || 0) <= this.expiration;
   }
 
+  get availableAt() {
+    return this.userDaily.last + this.day;
+  }
+
+  get streakExpiresAt() {
+    return this.expiration && this.userDaily.last + this.expiration;
+  }
+
   async streakProcess(streakContinues: boolean, user: User | BaseData) {
     if (streakContinues) {
       if (this.userDaily.streak > (this.userDaily.highest || 1)) await DB.users.set(user.id, { [`counters.${this.command}.highest`]: this.userDaily.streak });
