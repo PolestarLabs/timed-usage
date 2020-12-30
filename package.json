@@ -1,5 +1,5 @@
 {
-  "name": "timed-usage",
+  "name": "@polestar/timed-usage",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
