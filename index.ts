@@ -16,7 +16,7 @@ interface DailyCmdOptions {
   precheck?: () => boolean | Promise<boolean>;
 }
 
-enum STATUS {
+export enum STATUS {
   onCooldown,
   first,
   pass,
