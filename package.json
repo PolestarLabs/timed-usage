@@ -1,0 +1,33 @@
+{
+  "name": "timed-usage",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/PolestarLabs/timed-usage.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://gitlab.com/PolestarLabs/timed-usage/issues"
+  },
+  "homepage": "https://gitlab.com/PolestarLabs/timed-usage#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/bluebird": "^3.5.33",
+    "@types/express": "^4.17.9",
+    "@types/i18next": "^12.1.0",
+    "@types/node": "^14.14.16",
+    "axios": "^0.21.1",
+    "canvas": "^2.6.1",
+    "canvas-text-wrapper": "^0.10.2",
+    "eris": "^0.14.0",
+    "typescript": "^4.1.3"
+  }
+}
