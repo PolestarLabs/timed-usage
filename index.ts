@@ -56,7 +56,7 @@ export class DailyCmd {
   async process() {
     if (!this.userDaily) throw new Error("User not loaded");
     // @ts-ignore
-    if (!this.dailyAvailable && !PLX.timerBypass?.includes(this.id)) {
+    if (!this.dailyAvailable && PLX.timerBypass?.includes(this.id) === false) {
       this.userDataStatic = this.userDaily.last;
       return STATUS.onCooldown; // reject
     };
