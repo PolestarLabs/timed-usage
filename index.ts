@@ -17,11 +17,10 @@ interface DailyCmdOptions {
 }
 
 export enum STATUS {
-  onCooldown,
+  lost,
   first,
   pass,
   recovered,
-  lost,
 }
 
 type StreakStatus = "first" | "pass" | "recovered" | "lost"
@@ -58,7 +57,7 @@ export class DailyCmd {
     // @ts-ignore
     if (!this.dailyAvailable && PLX.timerBypass?.includes(this.id) === false) {
       this.userDataStatic = this.userDaily.last;
-      return STATUS.onCooldown; // reject
+      throw new Error("On cooldown");
     };
     if (!(await this.precheck())) return null;
     this.user.dailing = true;
