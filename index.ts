@@ -11,7 +11,7 @@ interface UserDaily {
 }
 interface DailyCmdOptions {
   day?: number;
-  streak?: boolean;
+  streak?: boolean | null;
   expiration?: number;
   precheck?: () => boolean | Promise<boolean>;
 }
@@ -30,7 +30,7 @@ export class DailyCmd {
   command: string;
   day: number;
   expiration: number | null;
-  streak: boolean;
+  streak: boolean | null;
   userDaily!: UserDaily;
   userDataStatic?: number;
   insuranceUsed?: boolean;
@@ -40,7 +40,7 @@ export class DailyCmd {
     this.command = command;
     this.day = options.day || 7.2e+7;
     this.expiration = options.expiration || null;
-    this.streak = !!options.streak;
+    this.streak = options.streak === void 0 ? null : options.streak;
     if (options.precheck) this.precheck = options.precheck;
   }
 
@@ -97,6 +97,7 @@ export class DailyCmd {
   }
 
   get keepStreak() {
+    if (this.streak === null) return null;
     const now = Date.now();
     const { userDaily } = this; // @ts-ignore
     return now - (userDaily.last || 0) <= this.expiration;
@@ -110,7 +111,8 @@ export class DailyCmd {
     return this.expiration && this.userDaily.last + this.expiration;
   }
 
-  async streakProcess(streakContinues: boolean, user: User | BaseData) {
+  async streakProcess(streakContinues: boolean | null, user: User | BaseData) {
+    if (streakContinues === null) return "pass";
     if (streakContinues) {
       if (this.userDaily.streak > (this.userDaily.highest || 1)) await DB.users.set(user.id, { [`counters.${this.command}.highest`]: this.userDaily.streak });
       if (this.userDaily.streak === 1) return "first";
