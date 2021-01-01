@@ -5,7 +5,7 @@ const EXPIRE = DAY * 2.1;
 import { Canvas, Image } from "canvas";
 import { Member, Message } from "eris";
 import { TranslationOptions } from "i18next";
-import { DailyCmd, Req, init as initTimedUsage } from ".";
+import { TimedUsage, Req, init as initTimedUsage } from ".";
 import * as Economy from "./types/Economy"
 import Picto from "./types/Picto";
 import { DAILY } from "./utils/Premium";
@@ -64,7 +64,7 @@ export class Daily extends EventEmitter {
       ]);
     }
   
-    const success = async (inp: Message | Req, dailyInfo: DailyCmd) => {
+    const success = async (inp: Message | Req, dailyInfo: TimedUsage) => {
       // const premiumTier = await Premium.getTier(msg.author);
       // can get just rid of this
       const dailyCard = Picto.new(800, 600);
@@ -340,7 +340,7 @@ export class Daily extends EventEmitter {
         }
       });
   
-      const info = async (msg: Message | Req, Daily: DailyCmd) => {
+      const info = async (msg: Message | Req, Daily: TimedUsage) => {
         const { userDaily } = Daily;
         const dailyAvailable = Daily.dailyAvailable();
         const streakGoes = Daily.keepStreak();
@@ -376,7 +376,7 @@ export class Daily extends EventEmitter {
         return msg.channel.send({ embed });
       }
   
-      const reject = (message: Message | Req, D: DailyCmd, REM: number) => {
+      const reject = (message: Message | Req, D: TimedUsage, REM: number) => {
         P.remaining = moment.utc(REM).fromNow(true);
         return (message as Message).channel.send(_emoji!("nope") + $t("responses.daily.dailyNope", P));
       }

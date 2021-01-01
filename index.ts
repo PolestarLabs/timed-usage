@@ -9,7 +9,7 @@ interface UserDaily {
   lastStreak?: number;
   last: number;
 }
-interface DailyCmdOptions {
+interface TimedUsageOptions {
   day?: number;
   streak?: boolean | null;
   expiration?: number;
@@ -25,7 +25,7 @@ export enum STATUS {
 
 type StreakStatus = "first" | "pass" | "recovered" | "lost"
 
-export class DailyCmd {
+export class TimedUsage {
   user!: User | BaseData;
   command: string;
   day: number;
@@ -36,7 +36,7 @@ export class DailyCmd {
   insuranceUsed?: boolean;
   streakStatus?: StreakStatus;
   precheck: () => boolean | Promise<boolean> = () => true;
-  constructor(command: string, options: DailyCmdOptions) {
+  constructor(command: string, options: TimedUsageOptions) {
     this.command = command;
     this.day = options.day || 7.2e+7;
     this.expiration = options.expiration || null;
@@ -129,17 +129,17 @@ export class DailyCmd {
     return "lost";
   }
 }
-type Callback<T> = (input: T, Daily: DailyCmd, remaining: number) => any;
+type Callback<T> = (input: T, Daily: TimedUsage, remaining: number) => any;
 export type Req = Request<ParamsDictionary, any, any, qs.ParsedQs>;
 
 /** @deprecated */
 // @ts-ignore
-export async function init(user: User | BaseData, cmd: string, opts: DailyCmdOptions, success: Callback<T>, reject: Callback<T>, info?: Callback<T>, presuccess?: Callback<T>): Promise<any> {
+export async function init(user: User | BaseData, cmd: string, opts: TimedUsageOptions, success: Callback<T>, reject: Callback<T>, info?: Callback<T>, presuccess?: Callback<T>): Promise<any> {
   // const P = input instanceof Message ? { lngs: input.lang } : void 0;
   // const lang = input instanceof Message ? input.lang[0] : void 0;
   // moment.locale(lang);
 
-  const Daily = new DailyCmd(cmd, opts);
+  const Daily = new TimedUsage(cmd, opts);
   /*
   const v = {
     last: $t("interface.daily.lastdly", P),
