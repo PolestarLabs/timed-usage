@@ -199,3 +199,5 @@ export async function init(user: User | BaseData, cmd: string, opts: DailyCmdOpt
   user.dailing = false;
   return null;
 }
+
+export { Daily } from "./daily";
