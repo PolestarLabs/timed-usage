@@ -3,7 +3,7 @@ const EXPIRE = DAY * 2.1;
 
 import { BaseData, Member, Message, User } from "eris";
 import { TranslationOptions } from "i18next";
-import { TimedUsage, Req, init as initTimedUsage } from ".";
+import { TimedUsage, Req, init as initTimedUsage, STATUS } from ".";
 import * as Economy from "./types/Economy"
 import { DAILY } from "./utils/Premium";
 // @ts-ignore
@@ -74,12 +74,7 @@ export class Daily extends EventEmitter {
     ]);
   }
 
-  public init(
-    input: Message | Req,
-    P: TranslationOptions,
-    moment: typeof Moment,
-  ) {
-  
+  public async init() {
     const success = async () => {
       // let streak = Number(args[0]||1)
       const { streak } = this.timedUsage.userDaily;
@@ -147,18 +142,10 @@ export class Daily extends EventEmitter {
 
       this.emit("calculationComplete", this.myDaily);
     }
-  
-    const reject = (message: Message | Req, D: TimedUsage, REM: number) => {
-      P.remaining = moment.utc(REM).fromNow(true);
-      return (message as Message).channel.send(_emoji!("nope") + $t("responses.daily.dailyNope", P));
-    }
 
-    initTimedUsage( // @ts-ignore
-      input.author || input.user,
-      "daily",
-      { day: DAY, expiration: EXPIRE, streak: true },
-      success, reject, info,
-    );
+    await this.timedUsage.process();
+    success()
+
   
     // Timed.init(msg, "daily", { streak: true, expiration: 1.296e+8 * 1.8 }, after, reject, info);
   }
