@@ -4,7 +4,7 @@ const EXPIRE = DAY * 2.1;
 import { BaseData, Member, Message, User } from "eris";
 import { TranslationOptions } from "i18next";
 import { TimedUsage, Req, init as initTimedUsage, STATUS } from "./TimedUsage";
-import * as Economy from "./types/Economy"
+import * as Economy from "../types/Economy"
 import { DAILY } from "./utils/Premium";
 // @ts-ignore
 import Moment from "moment";
