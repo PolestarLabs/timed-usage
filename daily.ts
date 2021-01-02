@@ -2,39 +2,13 @@
 const DAY = 22 * 60 * 60e3;
 const EXPIRE = DAY * 2.1;
 
-import { Canvas, Image } from "canvas";
 import { BaseData, Member, Message } from "eris";
 import { TranslationOptions } from "i18next";
 import { TimedUsage, Req, init as initTimedUsage } from ".";
 import * as Economy from "./types/Economy"
-import Picto from "./types/Picto";
 import { DAILY } from "./utils/Premium";
 import Moment from "moment";
 import { EventEmitter } from "events";
-
-interface DailyValues {
-  RBN: number;
-  JDE: number;
-  SPH: number;
-
-  PSM: number;
-  comToken: number;
-  cosmo_fragment: number;
-
-  boosterpack: number;
-  EXP: number;
-
-  stickers: number;
-  evToken: number;
-
-  lootbox_C: number;
-  lootbox_U: number;
-  lootbox_R: number;
-  lootbox_SR: number;
-  lootbox_UR: number;
-}
-
-interface v { last: string; next: string; streakcurr: string; expirestr: string };
 
 export class Daily extends EventEmitter {
   timedUsage: TimedUsage; user: User | BaseData; dailyPLXMember: Member | null; myDaily = {
@@ -149,20 +123,20 @@ export class Daily extends EventEmitter {
       }
 
       this.emit("calculationComplete", this.myDaily);
-  
-      const reject = (message: Message | Req, D: TimedUsage, REM: number) => {
-        P.remaining = moment.utc(REM).fromNow(true);
-        return (message as Message).channel.send(_emoji!("nope") + $t("responses.daily.dailyNope", P));
-      }
-  
-      initTimedUsage(
-        input,
-        "daily",
-        { day: DAY, expiration: EXPIRE, streak: true },
-        success, reject, info,
-      );
-    
-      // Timed.init(msg, "daily", { streak: true, expiration: 1.296e+8 * 1.8 }, after, reject, info);
     }
+  
+    const reject = (message: Message | Req, D: TimedUsage, REM: number) => {
+      P.remaining = moment.utc(REM).fromNow(true);
+      return (message as Message).channel.send(_emoji!("nope") + $t("responses.daily.dailyNope", P));
+    }
+
+    initTimedUsage(
+      input,
+      "daily",
+      { day: DAY, expiration: EXPIRE, streak: true },
+      success, reject, info,
+    );
+  
+    // Timed.init(msg, "daily", { streak: true, expiration: 1.296e+8 * 1.8 }, after, reject, info);
   }
 }
