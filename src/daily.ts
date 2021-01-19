@@ -75,6 +75,7 @@ export class Daily extends EventEmitter {
   }
 
   public async init() {
+    PLX.createMessage("792176688070918194", "Daily initiated - debug from timed usage");
     const success = async () => {
       // let streak = Number(args[0]||1)
       const { streak } = this.timedUsage.userDaily;
