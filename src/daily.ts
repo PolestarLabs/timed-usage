@@ -64,7 +64,7 @@ export class Daily extends EventEmitter {
   awardPrizes(ECO: typeof Economy, actions: Promise<any>[]) {
     const currencies: ["RBN", "JDE", "SPH", "PSM"] = ["RBN", "JDE", "SPH", "PSM"];
     return Promise.all([...actions,
-      ECO.receive(this.user.id, currencies.map((curr) => this.myDaily[curr]), "Daily Rewards", currencies),
+      ECO.receive(this.user.id, currencies.map((curr) => this.myDaily[curr] ?? 0), "Daily Rewards", currencies),
       DB.users.set(this.user.id, {
         $inc: {
           "modules.exp": this.myDaily.EXP || 0,
