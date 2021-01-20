@@ -91,13 +91,13 @@ export class Daily extends EventEmitter {
       if (isRoadTo(100) && !is(100)) this.emit("isRoadTo100-isNot100");
   
       switch (this.softStreak) {
-        case 1: case 2: this.myDaily.RBN += 150;
-        case 3: this.myDaily.JDE += 1000;
-        case 4: case 8: this.myDaily.cosmo_fragment += 25;
-        case 5: this.myDaily.JDE += 1500;
-        case 6: this.myDaily.lootbox_C += 1;
-        case 7: this.myDaily.RBN += 350;
-        case 9: this.myDaily.comToken += 5;
+        case 1: case 2: this.myDaily.RBN += 150; break;
+        case 3: this.myDaily.JDE += 1000; break;
+        case 4: case 8: this.myDaily.cosmo_fragment += 25; break;
+        case 5: this.myDaily.JDE += 1500; break;
+        case 6: this.myDaily.lootbox_C += 1; break;
+        case 7: this.myDaily.RBN += 350; break;
+        case 9: this.myDaily.comToken += 5; break;
       }
       
       if (is(10)) {
