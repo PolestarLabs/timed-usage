@@ -64,14 +64,14 @@ export class TimedUsage {
     await wait(0.2);
 
     const now = Date.now();
-    DB.users.set(this.user.id, { $set: { [`counters.${this.command}.last`]: now } });
+    await DB.users.set(this.user.id, { $set: { [`counters.${this.command}.last`]: now } });
     this.streakStatus = await this.streakProcess(this.keepStreak, this.user);
 
     if (this.streak && this.streakStatus !== "lost") {
       if (this.streakStatus === "recovered") this.insuranceUsed = true;
-      DB.users.set(this.user.id, { $inc: { [`counters.${this.command}.streak`]: 1 } });
+      await DB.users.set(this.user.id, { $inc: { [`counters.${this.command}.streak`]: 1 } });
     } else if (this.streak && this.streakStatus === "lost") {
-      DB.users.set(this.user.id, { $set: { [`counters.${this.command}.streak`]: 1 } });
+      await DB.users.set(this.user.id, { $set: { [`counters.${this.command}.streak`]: 1 } });
     }
 
     return STATUS[this.streakStatus]; // success
@@ -183,14 +183,14 @@ export async function init(user: User | BaseData, cmd: string, opts: TimedUsageO
   user.dailing = true;
   await wait(0.2);
   const now = Date.now();
-  DB.users.set(user.id, { $set: { [`counters.${Daily.command}.last`]: now } });
+  await DB.users.set(user.id, { $set: { [`counters.${Daily.command}.last`]: now } });
   const streakStatus = await Daily.streakProcess(Daily.keepStreak, user);
 
   if (Daily.streak && streakStatus !== "lost") {
     if (streakStatus === "recovered") Daily.insuranceUsed = true;
-    DB.users.set(user.id, { $inc: { [`counters.${Daily.command}.streak`]: 1 } });
+    await DB.users.set(user.id, { $inc: { [`counters.${Daily.command}.streak`]: 1 } });
   } else if (Daily.streak && streakStatus === "lost") {
-    DB.users.set(user.id, { $set: { [`counters.${Daily.command}.streak`]: 1 } });
+    await DB.users.set(user.id, { $set: { [`counters.${Daily.command}.streak`]: 1 } });
   }
   Daily.streakStatus = streakStatus;
 
