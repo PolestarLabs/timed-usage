@@ -90,7 +90,7 @@ export class TimedUsage {
     return this.parseUserData(user); // COMPATIBILITY
   }
 
-  get dailyAvailable() {
+  get available() {
     const now = Date.now();
     const { userDaily } = this;
     return now - (userDaily.last || 0) >= this.day;
