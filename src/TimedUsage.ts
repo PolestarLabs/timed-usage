@@ -55,7 +55,7 @@ export class TimedUsage {
   async process() {
     if (!this.userDaily) throw new Error("User not loaded");
     // @ts-ignore
-    if (!this.dailyAvailable && PLX.timerBypass?.includes(this.id) === false) {
+    if (!this.available && PLX.timerBypass?.includes(this.id) === false) {
       this.userDataStatic = this.userDaily.last;
       throw new Error("On cooldown");
     };
@@ -154,7 +154,7 @@ export async function init(user: User | BaseData, cmd: string, opts: TimedUsageO
   const DAY = Daily.day;
   await Daily.parseUserData(user);
   const userDaily = Daily.userDaily.last || Date.now();
-  const dailyAvailable = Daily.dailyAvailable;
+  const dailyAvailable = Daily.available;
 
   /* info/stats/status
   if (input instanceof Message && (input.args.includes("status") || input.args.includes("stats") || input.args.includes("info"))) {
