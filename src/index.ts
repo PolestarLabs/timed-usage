@@ -1,2 +1,2 @@
-export { STATUS, TimedUsage, Req } from "./TimedUsage"
+export { STATUS, TimedUsage } from "./TimedUsage"
 export { Daily } from "./daily";

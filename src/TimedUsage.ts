@@ -1,6 +1,4 @@
 import { User, BaseData } from "eris";
-import { Request } from "express";
-import { ParamsDictionary } from "express-serve-static-core"
 
 interface UserDaily {
   streak: number;
@@ -116,4 +114,3 @@ export class TimedUsage {
     return "lost";
   }
 }
-export type Req = Request<ParamsDictionary, any, any, qs.ParsedQs>;
