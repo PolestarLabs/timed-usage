@@ -1,7 +1,7 @@
 const DAY = 22 * 60 * 60e3;
 const EXPIRE = DAY * 2.1;
 
-import { BaseData, Member, User } from "eris";
+import { Member } from "eris";
 import { TimedUsage } from "./TimedUsage";
 import * as Economy from "../types/Economy"
 import { DAILY } from "./utils/Premium";
