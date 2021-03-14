@@ -1,7 +1,7 @@
 const DAY = 22 * 60 * 60e3;
 const EXPIRE = DAY * 2.1;
 
-import { BaseData, Member, Message, User } from "eris";
+import { BaseData, Member, User } from "eris";
 import { TimedUsage } from "./TimedUsage";
 import * as Economy from "../types/Economy"
 import { DAILY } from "./utils/Premium";
@@ -30,10 +30,11 @@ interface DailyValues {
 }
 
 export class Daily extends EventEmitter {
-  timedUsage: TimedUsage; user: User | BaseData; dailyPLXMember: Member | null; softStreak!: number; myDaily: DailyValues; userData: any;
-  constructor(timedUsage: TimedUsage, user: User | BaseData, dailyPLXMember: Member | null, userData: any) {
+  timedUsage: TimedUsage; dailyPLXMember: Member | null; softStreak!: number; myDaily: DailyValues;
+
+  constructor(timedUsage: TimedUsage, dailyPLXMember: Member | null) {
     super();
-    this.timedUsage = timedUsage; this.user = user; this.dailyPLXMember = dailyPLXMember; this.userData = userData;
+    this.timedUsage = timedUsage; this.dailyPLXMember = dailyPLXMember;
     this.myDaily = {
       RBN: 0,
       JDE: 0,
@@ -60,8 +61,8 @@ export class Daily extends EventEmitter {
   awardPrizes(ECO: typeof Economy, actions: Promise<any>[]) {
     const currencies: ["RBN", "JDE", "SPH", "PSM"] = ["RBN", "JDE", "SPH", "PSM"];
     return Promise.all([...actions,
-      ECO.receive(this.user.id, currencies.map((curr) => this.myDaily[curr] ?? 0), "daily", currencies),
-      DB.users.set(this.user.id, {
+      ECO.receive(this.timedUsage.user.id, currencies.map((curr) => this.myDaily[curr] ?? 0), "daily", currencies),
+      DB.users.set(this.timedUsage.user.id, {
         $inc: {
           "modules.exp": this.myDaily.EXP || 0,
           eventTokens: this.myDaily.evToken || 0,
@@ -130,8 +131,8 @@ export class Daily extends EventEmitter {
         this.emit("guildBooster");
       }
   
-      if (this.userData.donator) {
-        const donoBoost = DAILY[this.userData.donator as keyof typeof DAILY] || 0;
+      if (this.timedUsage.userData.donator) {
+        const donoBoost = DAILY[this.timedUsage.userData.donator as keyof typeof DAILY] || 0;
         this.emit("userDonator", donoBoost);
         this.myDaily.RBN += donoBoost;
       }

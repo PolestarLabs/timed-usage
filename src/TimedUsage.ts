@@ -30,6 +30,7 @@ export class TimedUsage {
   expiration: number | null;
   streak: boolean | null;
   userDaily!: UserDaily;
+  userData: any;
   userDataStatic?: number;
   insuranceUsed?: boolean;
   streakStatus?: StreakStatus;
@@ -43,8 +44,8 @@ export class TimedUsage {
   }
 
   async loadUser(user: User | BaseData) {
-    const USERDATA = await DB.users.get({ id: user.id }, undefined, "users");
-    const userDaily = USERDATA?.counters?.[this.command] || { last: 1, streak: 1 };
+    this.userData = await DB.users.get({ id: user.id }, undefined, "users");
+    const userDaily = this.userData?.counters?.[this.command] || { last: 1, streak: 1 };
     this.userDaily = userDaily;
     this.user = user;
     return this;
