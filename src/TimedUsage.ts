@@ -1,4 +1,4 @@
-import { User, BaseData } from "eris";
+import { User, BaseData, Member } from "eris";
 
 interface UserDaily {
   streak: number;
@@ -43,11 +43,11 @@ export class TimedUsage {
     if (options.precheck) this.precheck = options.precheck;
   }
 
-  async loadUser(user: User | BaseData) {
+  async loadUser(user: Member | User | BaseData) {
     this.userData = await DB.users.get({ id: user.id }, undefined, "users");
     const userDaily = this.userData?.counters?.[this.command] || { last: 1, streak: 1 };
     this.userDaily = userDaily;
-    this.user = user;
+    this.user = user instanceof Member ? user.user : user;
     return this;
   }
 

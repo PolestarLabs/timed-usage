@@ -1,7 +1,7 @@
 const DAY = 22 * 60 * 60e3;
 const EXPIRE = DAY * 2.1;
 
-import { Member } from "eris";
+import { BaseData, Member, User } from "eris";
 import { TimedUsage } from "./TimedUsage";
 import * as Economy from "../types/Economy"
 import { DAILY } from "./utils/Premium";
@@ -56,6 +56,11 @@ export class Daily extends EventEmitter {
       lootbox_SR: 0,
       lootbox_UR: 0,
     }
+  }
+
+  static async load(user: Member | User | BaseData) {
+    const timedUsage = await new TimedUsage("daily", { day: DAY, expiration: EXPIRE, streak: true }).loadUser(user);
+    return new Daily(timedUsage, user instanceof Member ? user : null);
   }
 
   awardPrizes(ECO: typeof Economy, actions: Promise<any>[]) {
