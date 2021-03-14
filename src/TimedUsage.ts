@@ -77,19 +77,6 @@ export class TimedUsage {
     return STATUS[this.streakStatus]; // success
   }
 
-  /** @deprecated */
-  async parseUserData(user: User | BaseData) {
-    const USERDATA = await DB.users.get({ id: user.id }, undefined, "users");
-    const userDaily = USERDATA.counters?.[this.command] || { last: 1, streak: 1 };
-    this.userDaily = userDaily;
-    return this.userDaily;
-  }
-
-  /** @deprecated */
-  userData(user: User) {
-    return this.parseUserData(user); // COMPATIBILITY
-  }
-
   get available() {
     const now = Date.now();
     const { userDaily } = this;
@@ -129,73 +116,4 @@ export class TimedUsage {
     return "lost";
   }
 }
-type Callback<T> = (input: T, Daily: TimedUsage, remaining: number) => any;
 export type Req = Request<ParamsDictionary, any, any, qs.ParsedQs>;
-
-/** @deprecated */
-// @ts-ignore
-export async function init(user: User | BaseData, cmd: string, opts: TimedUsageOptions, success: Callback<T>, reject: Callback<T>, info?: Callback<T>, presuccess?: Callback<T>): Promise<any> {
-  // const P = input instanceof Message ? { lngs: input.lang } : void 0;
-  // const lang = input instanceof Message ? input.lang[0] : void 0;
-  // moment.locale(lang);
-
-  const Daily = new TimedUsage(cmd, opts);
-  /*
-  const v = {
-    last: $t("interface.daily.lastdly", P),
-    next: $t("interface.daily.next", P),
-    streakcurr: $t("interface.daily.streakcurr", P),
-    expirestr: $t("interface.daily.expirestr", P),
-  };
-  */
-
-  // if (input instanceof Message && user.dailing === true) return input.channel.send(`There's already a \`${Daily.command}\` request going on!`);
-
-  const DAY = Daily.day;
-  await Daily.parseUserData(user);
-  const userDaily = Daily.userDaily.last || Date.now();
-  const dailyAvailable = Daily.available;
-
-  /* info/stats/status
-  if (input instanceof Message && (input.args.includes("status") || input.args.includes("stats") || input.args.includes("info"))) {
-    const remain = userDaily + DAY;
-    if (info) return info(input, Daily, remain);
-    const embed = new Embed();
-    embed.setColor("#e35555");
-    embed.description(`${_emoji?.("time")} ${_emoji?.("offline")} **${v.last}** ${moment.utc(userDaily).fromNow()}\n`
-      + `${_emoji?.("future")} ${dailyAvailable ? _emoji?.("online") : _emoji?.("dnd")} **${v.next}** `
-      + `${moment.utc(userDaily).add((DAY / 1000 / 60 / 60), "hours").fromNow()}`); // @ts-ignore fuckin eris additions
-    return input.channel.send({ embed });
-  }
-  */
-
-  const remain = userDaily + DAY;
-  // @ts-expect-error: timerBypass is only available on bot instance - will be undefined otherwise
-  if (!dailyAvailable && (!PLX.timerBypass?.includes(user.id))) {
-    Daily.userDataStatic = userDaily;
-    return reject(user, Daily, remain);
-  }
-  if (presuccess) {
-    const pre = await presuccess(user, Daily, remain);
-    if (pre !== true) return null;
-  }
-
-  user.dailing = true;
-  await wait(0.2);
-  const now = Date.now();
-  await DB.users.set(user.id, { $set: { [`counters.${Daily.command}.last`]: now } });
-  const streakStatus = await Daily.streakProcess(Daily.keepStreak, user);
-
-  if (Daily.streak && streakStatus !== "lost") {
-    if (streakStatus === "recovered") Daily.insuranceUsed = true;
-    await DB.users.set(user.id, { $inc: { [`counters.${Daily.command}.streak`]: 1 } });
-  } else if (Daily.streak && streakStatus === "lost") {
-    await DB.users.set(user.id, { $set: { [`counters.${Daily.command}.streak`]: 1 } });
-  }
-  Daily.streakStatus = streakStatus;
-
-  success(user, Daily, remain);
-
-  user.dailing = false;
-  return null;
-}
