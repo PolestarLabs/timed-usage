@@ -30,7 +30,7 @@ export enum DAILY_GETS {
 
 export function getTier(user: User | BaseData): Promise<keyof typeof DAILY | null> {
   return DB.users.get(user.id).then((usr: any) => {
-    const tier: keyof typeof DAILY = usr.donator;
+    const tier: keyof typeof DAILY = usr.prime?.tier || usr.donator;
     // if (usr.premium?.active)
     return tier?.toLowerCase() || null;
     // return false;
