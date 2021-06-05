@@ -19,7 +19,6 @@
     "url": "https://gitlab.com/PolestarLabs/timed-usage/issues"
   },
   "homepage": "https://gitlab.com/PolestarLabs/timed-usage#readme",
-  "dependencies": {},
   "devDependencies": {
     "@types/bluebird": "^3.5.33",
     "@types/i18next": "^12.1.0",
