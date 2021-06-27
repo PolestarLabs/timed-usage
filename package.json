@@ -26,5 +26,8 @@
     "axios": "^0.21.1",
     "eris": "^0.14.0",
     "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "@polestar/constants": "gitlab:PolestarLabs/constants"
   }
 }
