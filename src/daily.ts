@@ -60,6 +60,7 @@ export class Daily extends EventEmitter {
 
   static async load(user: Member | User | BaseData) {
     const timedUsage = await new TimedUsage("daily", { day: DAY, expiration: EXPIRE, streak: true }).loadUser(user);
+    console.log({user},"------------------------------------------------------------------------------------dly")
     return new Daily(timedUsage, user instanceof Member ? user : null);
   }
 
