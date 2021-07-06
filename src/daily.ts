@@ -1,11 +1,9 @@
-const DAY = 22 * 60 * 60e3;
-const EXPIRE = DAY * 2.1;
-
 import { BaseData, Member, User } from "eris";
 import { TimedUsage } from "./TimedUsage";
 import * as Economy from "../types/Economy"
 import { DAILY } from "./utils/Premium";
 import { EventEmitter } from "events";
+import { Daily as D } from "@polestar/constants/timers";
 
 interface DailyValues {
   RBN: number;
@@ -59,7 +57,7 @@ export class Daily extends EventEmitter {
   }
 
   static async load(user: Member | User | BaseData) {
-    const timedUsage = await new TimedUsage("daily", { day: DAY, expiration: EXPIRE, streak: true }).loadUser(user);
+    const timedUsage = await new TimedUsage("daily", { day: D.DAILY_DAY, expiration: D.DAILY_EXPIRE, streak: true }).loadUser(user);
     console.log({user},"------------------------------------------------------------------------------------dly")
     return new Daily(timedUsage, user instanceof Member ? user : null);
   }
