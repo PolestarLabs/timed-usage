@@ -58,8 +58,7 @@ export class Daily extends EventEmitter {
 
   static async load(user: Member | User | BaseData) {
     const timedUsage = await new TimedUsage("daily", { day: D.DAILY_DAY, expiration: D.DAILY_EXPIRE, streak: true }).loadUser(user);
-    console.log({user},"------------------------------------------------------------------------------------dly")
-    return new Daily(timedUsage, user instanceof Member ? user : null);
+    return new Daily(timedUsage, user.guild ? user : null);
   }
 
   awardPrizes(ECO: typeof Economy, actions: Promise<any>[]) {
@@ -131,7 +130,7 @@ export class Daily extends EventEmitter {
       }
       
       if (this.dailyPLXMember?.premiumSince) {
-        this.myDaily.PSM = Math.min(~~((Date.now() - new Date(this.dailyPLXMember.premiumSince).getTime()) / (24 * 60 * 60e3) / 10), 150);
+        this.myDaily.PSM = Math.min(~~( 5 + (Date.now() - new Date(this.dailyPLXMember.premiumSince).getTime()) / (24 * 60 * 60e3) / 10), 150);
         this.emit("guildBooster");
       }
   
