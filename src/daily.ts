@@ -59,8 +59,7 @@ export class Daily extends EventEmitter {
   static async load(user: Member | User | BaseData) {
     const timedUsage = await new TimedUsage("daily", { day: D.DAILY_DAY, expiration: D.DAILY_EXPIRE, streak: true }).loadUser(user);
     
-    return new Daily(timedUsage, user?.guild ? user : null);
-   
+    return new Daily(timedUsage, "guild" in user ? user as Member : null);
   }
 
   awardPrizes(ECO: typeof Economy, actions: Promise<any>[]) {
