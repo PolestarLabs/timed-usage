@@ -1,6 +1,6 @@
 {
   "name": "@polestar/timed-usage",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
   "main": "dist/index.js",
   "types": "src/index.ts",
@@ -10,21 +10,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/PolestarLabs/timed-usage.git"
+    "url": "git+https://github.com/PolestarLabs/timed-usage.git"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://gitlab.com/PolestarLabs/timed-usage/issues"
+    "url": "https://github.com/PolestarLabs/timed-usage/issues"
   },
-  "homepage": "https://gitlab.com/PolestarLabs/timed-usage#readme",
+  "homepage": "https://github.com/PolestarLabs/timed-usage#readme",
   "devDependencies": {
     "axios": "^0.21.1",
     "eris": ">=0.14.0",
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "@polestar/constants": "gitlab:PolestarLabs/constants",
+    "@polestar/constants": "github:PolestarLabs/constants",
     "eris": ">=0.14.0",
     "@types/bluebird": "^3.5.33",
     "@types/node": "^14.14.16"
