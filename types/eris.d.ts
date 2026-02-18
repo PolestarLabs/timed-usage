@@ -107,7 +107,7 @@ declare module "eris" {
 
   interface Member {
     bannable: boolean;
-    createMessage(content: MessageContent, file?: MessageFile | MessageFile[]): Promise<Message<PrivateChannel>>;
+    createMessage(content: MessageContent, file?: MessageFile | MessageFile[]): Promise<Message<DMChannel>>;
     effectiveName: string;
     hasPermission(permission: string): boolean;
     hasRole(roleID: Role | string): boolean;
@@ -116,7 +116,7 @@ declare module "eris" {
     kickable: boolean;
     punishable(member2: Member): boolean;
     roleObjects: Role[];
-    sendMessage(content: MessageContent, file?: MessageFile | MessageFile[]): Promise<Message<PrivateChannel>>;
+    sendMessage(content: MessageContent, file?: MessageFile | MessageFile[]): Promise<Message<DMChannel>>;
   }
 
   interface Message<T extends Textable = TextChannel> {
@@ -131,7 +131,7 @@ declare module "eris" {
   }
 
   interface User {
-    createMessage(content: MessageContent, file?: MessageFile | MessageFile[]): Promise<Message<PrivateChannel>>;
+    createMessage(content: MessageContent, file?: MessageFile | MessageFile[]): Promise<Message<DMChannel>>;
     displayAvatarURL: string;
     dailing: boolean;
     tag: string;
